@@ -6,19 +6,22 @@ public class Timer : MonoBehaviour {
 
 	public static Timer instance;
 
+	public AudioSource tickingTimerSource;
+
 	public Text winText;
 	public Text	instructionsText;
 	public Text scoreText;
 
 	public int score = 0;
 
-	private float timerFullTimeSeconds = 40;
+	private float timerFullTimeSeconds = 20;
 	public static float timerCountdownSeconds;
 	public GameObject timerGameObject;
 	private Text timerText;
 	public bool gameOver = false;
 	public bool timerRunning = false;
-	
+	private bool finalCountdown = false;
+
 	void Start () {
 		timerText = timerGameObject.GetComponent ("Text") as Text;
 		Reset();
@@ -33,6 +36,7 @@ public class Timer : MonoBehaviour {
 		instructionsText.gameObject.transform.parent.gameObject.SetActive (true);
 		winText.gameObject.transform.parent.gameObject.SetActive (false);
 		score = 0;
+		finalCountdown = false;
 	}
 
 	public void StartTimer(){
@@ -44,6 +48,12 @@ public class Timer : MonoBehaviour {
 		if (gameOver || !timerRunning) {
 			return;
 		}
+
+		if (timerCountdownSeconds <= 10 && !finalCountdown) {
+			finalCountdown = true;
+			tickingTimerSource.Play ();
+		}
+
 		timerCountdownSeconds -= Time.deltaTime;
 		float truncatedTime = Mathf.Round (timerCountdownSeconds);
 

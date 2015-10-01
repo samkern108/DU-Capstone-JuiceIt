@@ -16,6 +16,10 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour 
 {
+	public AudioSource goodPickupSource;
+	public AudioSource badPickupSource;
+	public AudioSource wallCollideSource;
+
 	public float speed;
 
 	private Rigidbody body;
@@ -47,12 +51,21 @@ public class PlayerController : MonoBehaviour
 		{ 
 			other.gameObject.SetActive(false);
 			Timer.instance.UpdateScore(1);
+			goodPickupSource.Play();
 		}
 
 		if(other.gameObject.CompareTag("PowerDown"))
 		{
 			other.gameObject.SetActive(false);
 			Timer.instance.UpdateScore(-1);
+			badPickupSource.Play();
+		}
+	}
+
+	void OnCollisionEnter(Collision coll)
+	{
+		if (coll.gameObject.tag == "Wall") {
+			wallCollideSource.Play ();
 		}
 	}
 }
