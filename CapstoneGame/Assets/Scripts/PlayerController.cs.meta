@@ -1,8 +1,16 @@
 fileFormatVersion: 2
 guid: 86b4cc2b626fe63459b5aba7cb3e7eda
+timeCreated: 1443680003
+licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - countText: {instanceID: 0}
+  - winText: {instanceID: 0}
+  - startScreenText: {instanceID: 0}
+  - goodPickUpSound: {fileID: 8300000, guid: 39fd6e85586ebc94b82d7868cd3a7bb9, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
+  assetBundleName: 
+  assetBundleVariant: 

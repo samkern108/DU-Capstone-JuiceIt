@@ -21,7 +21,7 @@ public class CameraController : MonoBehaviour
 
 	private Vector3 offset;
 
-
+    //moves camera with the player at an offset distance away from the player object 
 	void Start () 
 	{
 		offset = transform.position - player.transform.position;
