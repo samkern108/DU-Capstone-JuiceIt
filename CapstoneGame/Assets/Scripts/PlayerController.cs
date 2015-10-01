@@ -17,63 +17,28 @@ using System.Collections;
 public class PlayerController : MonoBehaviour 
 {
 	public float speed;
-	public int timer; 
-	public Text countText;
-	public Text	winText;
-	public Text startScreenText; 
-
-
 
 	private Rigidbody body;
-	private int score;
-	private int beginningCounter; 
 	private int powerUps; //how many greens are in the level
-	private bool over; 
 
 	void Start()
 	{
 		body = GetComponent<Rigidbody> ();
-		SetCountText();
-		winText.text = "";
-		startScreenText.text = "Collect green cubes for points. Avoid red cubes for a better score."; 
-		beginningCounter = 0; 
 		powerUps = 10; 
-		score = 0 ; 
-		over = false; 
 	}
 
 	void FixedUpdate()
 	{
+		if (Timer.instance.gameOver || !Timer.instance.timerRunning) {
+			body.velocity = new Vector3(0,0,0);
+			return;
+		}
 		float moveHorizontal = Input.GetAxis ("Horizontal");
 		float moveVertical = Input.GetAxis ("Vertical");
 
 		Vector3 movement = new Vector3 (moveHorizontal, 0.0f, moveVertical);
 
-		beginningCounter++;
-
-		if (timer > 0) 
-		{
-			if (beginningCounter < 150) 
-			{ //instruction delay
-				//do nothing 
-			} 
-			else 
-			{
-				startScreenText.text = ""; 
-				body.AddForce (movement * speed);
-				timer--; 
-			}
-		} 
-		else
-		{
-			body.AddForce (movement * 0);
-			over = true; 
-		}
-		if(over == true)
-		{
-			winText.text = "Waita go! you scored " + score.ToString() + " points!"  ; 
-		} 
-
+		body.AddForce (movement * speed);
 	}
 
 	void OnTriggerEnter(Collider other)
@@ -81,21 +46,13 @@ public class PlayerController : MonoBehaviour
 		if(other.gameObject.CompareTag("PowerUp"))
 		{ 
 			other.gameObject.SetActive(false);
-			score = score + 1;
-			SetCountText();
+			Timer.instance.UpdateScore(1);
 		}
 
 		if(other.gameObject.CompareTag("PowerDown"))
 		{
 			other.gameObject.SetActive(false);
-			score = score - 1;
-			SetCountText();
+			Timer.instance.UpdateScore(-1);
 		}
 	}
-
-	void SetCountText()
-	{
-		countText.text = "Score: " + score.ToString(); 
-	}
-
 }
