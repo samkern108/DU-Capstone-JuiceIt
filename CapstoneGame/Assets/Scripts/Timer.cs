@@ -14,7 +14,7 @@ public class Timer : MonoBehaviour {
 
 	public int score = 0;
 
-	private float timerFullTimeSeconds = 20;
+	private float timerFullTimeSeconds = 60;
 	public static float timerCountdownSeconds;
 	public GameObject timerGameObject;
 	private Text timerText;
