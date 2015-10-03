@@ -8,19 +8,22 @@ public class Timer : MonoBehaviour {
 
 	public AudioSource tickingTimerSource;
 
+	public GameObject scorePanel;
+	public GameObject timerGameObject;
+
+	private Animator scoreAnimator;
+	private Animator timerAnimator;
+
 	public Text winText;
 	public Text	instructionsText;
 	public Text scoreText;
 
 	public int score = 0;
 
-<<<<<<< HEAD
-	private float timerFullTimeSeconds = 60;
-=======
-	private float timerFullTimeSeconds = 5;
->>>>>>> 0d68a141f0bf42665954aa1f5fa1df06cfcc4638
+	
+	private float timerFullTimeSeconds = 45.49f;  //#superhackytimecrunch
+	private int tickTracker = 45;
 	public static float timerCountdownSeconds;
-	public GameObject timerGameObject;
 	private Text timerText;
 	public bool gameOver = false;
 	public bool timerRunning = false;
@@ -29,6 +32,9 @@ public class Timer : MonoBehaviour {
 	void Start () {
 		timerText = timerGameObject.GetComponent ("Text") as Text;
 		Reset();
+
+		scoreAnimator = scorePanel.GetComponent ("Animator") as Animator;
+		timerAnimator = timerText.gameObject.GetComponent ("Animator") as Animator;
 
 		instance = this;
 	}
@@ -58,6 +64,15 @@ public class Timer : MonoBehaviour {
 			tickingTimerSource.Play ();
 		}
 
+		if (timerCountdownSeconds <= tickTracker + .5) {   //#superduperhackytimecrunch
+			tickTracker--;
+			if (finalCountdown) {
+				timerAnimator.SetTrigger ("LowTimeTick");
+			} else {
+				timerAnimator.SetTrigger ("Tick");
+			}
+		}
+
 		timerCountdownSeconds -= Time.deltaTime;
 		float truncatedTime = Mathf.Round (timerCountdownSeconds);
 
@@ -74,6 +89,12 @@ public class Timer : MonoBehaviour {
 
 	public void UpdateScore(int add)
 	{
+		if(add > 0){
+			scoreAnimator.SetTrigger("Increment");
+		}
+		else{
+			scoreAnimator.SetTrigger("Decrement");
+		}
 		score += add;
 		scoreText.text = "Score: " + score;
 	}
